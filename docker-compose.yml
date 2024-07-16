@@ -1,0 +1,18 @@
+services:
+  pgsql:
+    image: bitnami/postgresql
+    container_name: pgsql
+    environment:
+      - POSTGRESQL_USERNAME=${DB_NAME}
+      - POSTGRESQL_PASSWORD=${DB_PASSWORD}
+      - POSTGRESQL_DATABASE=${DB_TABLENAME}
+    env_file:
+      - .env
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - pg_data:/var/lib/postgresql/data
+    restart: always
+    ports:
+      - 5432:5432
+volumes:
+  pg_data:
